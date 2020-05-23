@@ -1,0 +1,27 @@
+[package]
+name = "search_json"
+version = "0.1.0"
+authors = ["wangmarkqi <wangalexqi@126.com>"]
+edition = "2018"
+description = "A convient tool for big mass json file search."
+license = "MIT"
+#build = "./src/build.rs"
+
+
+[lib]
+name = "search_json"
+path = "src/lib.rs"
+[[bin]]
+name = "search_json"
+path = "src/bin.rs"
+
+[dependencies]
+url="2.1.1"
+anyhow="1.0"
+walkdir = "2"
+futures="0.3.5"
+serde_derive = "1.0.90"
+serde_json = "1.0.39"
+serde = { version = "1.0.90", features = ["derive"] }
+petgraph="0.5.0"
+
