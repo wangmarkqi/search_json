@@ -5,7 +5,9 @@ authors = ["wangmarkqi <wangalexqi@126.com>"]
 edition = "2018"
 description = "A convient tool for big mass json file search."
 license = "MIT"
-#build = "./src/build.rs"
+homepage = "https://github.com/wangmarkqi/search_json.git"
+repository = "https://github.com/wangmarkqi/search_json.git"
+documentation = "https://docs.rs/search_json/0.1.0/search_json/"
 
 
 [lib]
