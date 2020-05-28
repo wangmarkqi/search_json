@@ -1,12 +1,6 @@
 pub mod common;
 pub mod process;
 
-#[macro_use]
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-#[macro_use]
-extern crate serde_json;
 
 /// get all path
 pub fn get_all_path(root: String) -> Vec<String> {

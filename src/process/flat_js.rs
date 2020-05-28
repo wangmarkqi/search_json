@@ -1,6 +1,5 @@
 use crate::common::common::*;
 use serde_json::Value;
-use crate::common::strerr::StrError;
 use std::sync::mpsc::{channel,Sender,Receiver};
 use std::thread;
 use crate::process::define::*;
@@ -10,7 +9,7 @@ fn get_js_value(js: &str) -> Value {
     let  res: Value;
     match v {
         Ok(vv) => res = vv,
-        Err(e) => {
+        Err(_e) => {
             res = Value::Null;
         }
     }
@@ -56,7 +55,6 @@ fn iter_all(t: Tracker,sender:Sender<Tracker>) {
             sender.send(tt).unwrap();
             return;
         }
-        _ => print!("nomatch{}",v),
     }
 }
 pub fn flat_json(js:&str)->Vec<String>{
@@ -80,4 +78,5 @@ pub fn test() {
     let path= "./test.json";
     let js = read_file_as_txt(&path);
     let res=flat_json(&js);
+    dbg!(res);
 }

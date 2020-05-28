@@ -1,5 +1,5 @@
 use serde_json::Value;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 pub const SEP_SPLIT: &'static str = "--->";
 pub const SEP_ROOT: &'static str = "ROOT";
@@ -29,13 +29,6 @@ pub const JS_NUM: &'static str = "num";
 pub const JS_STR: &'static str = "str";
 pub const JS_ROOT: &'static str = "root";
 
-fn del_sep(s: &str, sepl: &str, sepr: &str) -> String {
-    let l = sepl.len();
-    let r = sepr.len();
-    let n = s.len();
-    let res = s[l..n - r].to_string();
-    res
-}
 
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -61,7 +54,7 @@ impl JsNode {
         }
     }
     pub fn get_by_id(id: i32, dic: &HashMap<String, JsNode>) -> JsNode {
-        for (k, v) in dic.iter() {
+        for (_k, v) in dic.iter() {
             if id == v.id {
                 return v.to_owned();
             }
