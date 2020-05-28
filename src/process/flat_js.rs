@@ -3,10 +3,9 @@ use serde_json::Value;
 use crate::common::strerr::StrError;
 use std::sync::mpsc::{channel,Sender,Receiver};
 use std::thread;
-use futures::executor::block_on;
 use crate::process::define::*;
 
-pub fn get_js_value(js: &str) -> Value {
+fn get_js_value(js: &str) -> Value {
     let v = serde_json::from_str(&js);
     let  res: Value;
     match v {
@@ -18,7 +17,7 @@ pub fn get_js_value(js: &str) -> Value {
     res
 }
 
-pub fn iter_all(t: Tracker,sender:Sender<Tracker>) {
+fn iter_all(t: Tracker,sender:Sender<Tracker>) {
     let v = t.content;
     match v {
         Value::Array(x) => {
@@ -81,6 +80,4 @@ pub fn test() {
     let path= "./test.json";
     let js = read_file_as_txt(&path);
     let res=flat_json(&js);
-
-
 }

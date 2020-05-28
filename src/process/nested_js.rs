@@ -5,7 +5,6 @@ use serde_json::Value;
 use crate::common::strerr::StrError;
 use std::sync::mpsc::{channel, Sender, Receiver};
 use std::thread;
-use futures::executor::block_on;
 use std::collections::{HashMap, HashSet};
 // people.sort_by(|a, b| b.age.cmp(&a.age));
 use petgraph::visit::Dfs;
@@ -13,7 +12,7 @@ use petgraph::graphmap::UnGraphMap;
 use petgraph::graphmap::DiGraphMap;
 use std::collections::VecDeque;
 
-pub fn routes2vec(ts: &Vec<String>) -> Vec<Vec<String>> {
+fn routes2vec(ts: &Vec<String>) -> Vec<Vec<String>> {
     let mut res = vec![];
     for s in ts.iter() {
         let rs: Vec<String> = s.split(SEP_SPLIT).map(|e| e.to_owned()).collect();
@@ -22,7 +21,7 @@ pub fn routes2vec(ts: &Vec<String>) -> Vec<Vec<String>> {
     res
 }
 
-pub fn node_dic(rs: &Vec<Vec<String>>) -> HashMap<String, JsNode> {
+fn node_dic(rs: &Vec<Vec<String>>) -> HashMap<String, JsNode> {
     let mut id = 0;
     let mut node_dic = HashMap::new();
     for route in rs.iter() {
@@ -39,7 +38,7 @@ pub fn node_dic(rs: &Vec<Vec<String>>) -> HashMap<String, JsNode> {
     node_dic
 }
 
-pub fn edges_vec(rs: &Vec<Vec<String>>, dic: &HashMap<String, JsNode>) -> Vec<(i32, i32)> {
+fn edges_vec(rs: &Vec<Vec<String>>, dic: &HashMap<String, JsNode>) -> Vec<(i32, i32)> {
     let mut edges = vec![];
     for route in rs.iter() {
         let n = route.len();
@@ -54,7 +53,7 @@ pub fn edges_vec(rs: &Vec<Vec<String>>, dic: &HashMap<String, JsNode>) -> Vec<(i
     edges
 }
 
-pub fn nest_json(edges: &Vec<(i32, i32)>, dic: &HashMap<String, JsNode>) -> String {
+fn _nest_json(edges: &Vec<(i32, i32)>, dic: &HashMap<String, JsNode>) -> String {
     let mut stack: VecDeque<String> = VecDeque::new();
     let mut js_str = r#""#.to_owned();
     let graph = UnGraphMap::<_, ()>::from_edges(edges);
@@ -95,8 +94,13 @@ pub fn nest_json(edges: &Vec<(i32, i32)>, dic: &HashMap<String, JsNode>) -> Stri
     };
     js_str.to_string()
 }
-pub fn del_comma(s:String){
 
+pub fn nest_json(data: &Vec<String>) -> String {
+    let res = routes2vec(&data);
+    let dic = node_dic(&res);
+    let edges = edges_vec(&res, &dic);
+    let res1 = _nest_json(&edges, &dic);
+    res1
 }
 
 pub fn test() {
@@ -104,15 +108,8 @@ pub fn test() {
     let js = read_file_as_txt(&path);
     let data = flat_json(&js);
     dbg!(data.clone());
-    let res = routes2vec(&data);
-    let dic = node_dic(&res);
-    let edges = edges_vec(&res, &dic);
-    let res1 = nest_json(&edges, &dic);
-    dbg!(res1);
+    let res=nest_json(&data);
+    dbg!(res);
 
-    // for i in 1..5 {
-    // }
-    // dbg!(l.clone());
-    // dbg!(l.pop_front());
-    // dbg!(l.pop_front());
+
 }
