@@ -6,7 +6,7 @@ pub mod process;
 pub fn get_all_path(root: String) -> Vec<String> {
     common::common::get_all_local_path(root)
 }
-/// flat deep nested json
+/// read file to string
 /// # Examples
 /// ```
 ///    let path= "./test.json";
